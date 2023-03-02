@@ -11,7 +11,7 @@ def count_sentences(s):
         if character in m1 and str_start:
             count += 1
             str_start = False
-        #loop start
+        #loop end and continue to the next iteration
             
     return count
 
