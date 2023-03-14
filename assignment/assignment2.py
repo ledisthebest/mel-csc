@@ -84,17 +84,53 @@ def is_sink(m: List[List[int]], c: List[int]) -> bool:
     #Your code goes here
     row = c[0]
     col = c[1]
-    c_height = m[row][col]
+    elevation = m[row][col]
+
+    length = len(m)
     
-    if row >= len(m) and col >= len(m[0]):
+    if row >= length and col >= length:
         return False
 
-    adj_peak = -1
-    found_peak = False
+    adj_elevation = []
+
+    for row in range(-1 , 2):
+    
+
+    """ 
+        if row - 1 > -1 and row + 1 < length:
+            if m[row - 1][col] > elevation or m[row + 1][col] > elevation:  # check top and bottom
+                ...
+            if col - 1 > -1 and col + 1 < length:
+                if m[row - 1][col - 1] > elevation or m[row + 1][col + 1] > elevation:  # check top-left and bottom-right
+                    ... 
+        
+        if col - 1 > -1 and col + 1 < length:
+            if m[row][col - 1] > elevation or m[row][col + 1] > elevation:  # check left and right
+                ...
+            if row - 1 > -1 and row + 1 < length:
+                if m[row + 1][col - 1] > elevation or m[row - 1][col + 1] > elevation:  # check bottom-left and top-right
+                    ...
+    """
+    """     
+        if row - 1 > -1 and row + 1 < length:  # check top and bottom
+            adj_elevation.append(m[row - 1][col])
+            adj_elevation.append(m[row + 1][col])
+            
+            if col - 1 > -1 and col + 1 < length:  # check left and right
+                adj_elevation.append(m[row][col - 1])
+                adj_elevation.append(m[row][col + 1])
+                # top-left and bottom-right
+                adj_elevation.append(m[row - 1][col - 1])
+                adj_elevation.append(m[row + 1][col + 1])
+
+            if row - 1 > -1 and row + 1 < length: # check bottom-left and top-right
+                adj_elevation.append(m[row + 1][col - 1])
+                adj_elevation.append(m[row - 1][col + 1])
+    """
 
     if row == 0 or row == len(m) - 1 or col == 0 or col == len(m[row]) - 1:
 
-        if m[row - 1][col] > c_height or m[row - 1][col + 1] > c_height or m[row][col + 1] > c_height or m[row + 1][col + 1] > c_height or m[row + 1][col] > c_height or m[row + 1][col - 1] > c_height or m[row][col - 1] > c_height or m[row - 1][col - 1]:
+        if  > c_height or m[row - 1][col + 1] > c_height or m[row][col + 1] > c_height or m[row + 1][col + 1] > c_height or m[row + 1][col] > c_height or m[row + 1][col - 1] > c_height or m[row][col - 1] > c_height or m[row - 1][col - 1]:
 
 
 
