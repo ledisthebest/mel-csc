@@ -21,13 +21,14 @@ def get_average_elevation(m: List[List[int]]) -> float:
     total_elevation = 0
     number_elements = 0
 
-    for row in m:
-        for cell in row:
-            total_elevation += cell
+    for average in m:
+        for elevation in average:
+            total_elevation += elevation
             number_elements += 1
 
-    return total_elevation / number_elements  # return average elevation
- 
+    average_elevation = total_elevation / number_elements
+
+    return average_elevation 
     
 
 def find_peak(m: List[List[int]]) -> List[int]:
@@ -48,21 +49,16 @@ def find_peak(m: List[List[int]]) -> List[int]:
     [2,2]
     """
     #Your code goes here
-    peak_location = []
-    elevation = 0 
+    height = m[0][0]
+    peak = [0,0]
 
-    for row in m:
-        for cell in row:
+    for i in range(len(m)):
+        for j in range(len(m[0])):
+            if m[i][j] > height:
+                height = m[i][j]
+                peak = [i, j]
             
-            if m[row,cell] > elevation:
-                elevation = m[row,cell]
-                
-                peak_location.clear()
-                peak_location.append(row)
-                peak_location.append(cell)
-    
-    return peak_location
-
+    return peak
             
 
 def is_sink(m: List[List[int]], c: List[int]) -> bool:
@@ -86,6 +82,27 @@ def is_sink(m: List[List[int]], c: List[int]) -> bool:
     True
     """
     #Your code goes here
+    row = c[0]
+    col = c[1]
+    c_height = m[row][col]
+    
+    if row >= len(m) and col >= len(m[0]):
+        return False
+
+    adj_peak = -1
+    found_peak = False
+
+    if row == 0 or row == len(m) - 1 or col == 0 or col == len(m[row]) - 1:
+
+        if m[row - 1][col] > c_height or m[row - 1][col + 1] > c_height or m[row][col + 1] > c_height or m[row + 1][col + 1] > c_height or m[row + 1][col] > c_height or m[row + 1][col - 1] > c_height or m[row][col - 1] > c_height or m[row - 1][col - 1]:
+
+
+
+    for i in range(row - 1, row + 2):
+        for j in range(col - 1, col + 2):
+            if i >= 0 and i < len(m) and j >= 0 and j < len(m[0]) and (i, j) != (row, col) and m[i][j] <= value:
+                return False
+    return True
     
 
 def find_local_sink(m: List[List[int]], start: List[int]) -> List[int]:
@@ -114,6 +131,7 @@ def find_local_sink(m: List[List[int]], start: List[int]) -> List[int]:
     [1,1]
     """
     #Your code goes here
+    
 
     
 def can_hike_to(m: List[List[int]], s: List[int], d: List[int], supplies: int) -> bool:
@@ -166,4 +184,16 @@ def create_real_map()-> List[List[int]]:
         for j in range(len(m[i])):
             m[i][j] = int(m[i][j])
     return m
+    
+    
+
+
+
+
+
+
+
+
+
+
     
