@@ -50,15 +50,15 @@ def find_peak(m: List[List[int]]) -> List[int]:
     """
     #Your code goes here
     height = m[0][0]
-    peak = [0,0]
+    peak_location = [0, 0]
 
-    for i in range(len(m)):
-        for j in range(len(m[0])):
-            if m[i][j] > height:
-                height = m[i][j]
-                peak = [i, j]
+    for row in range(len(m)):
+        for col in range(len(m[0])):
+            if m[row][col] > height:
+                height = m[row][col]
+                peak_location = [row, col]
             
-    return peak
+    return peak_location
             
 
 def is_sink(m: List[List[int]], c: List[int]) -> bool:
@@ -82,58 +82,20 @@ def is_sink(m: List[List[int]], c: List[int]) -> bool:
     True
     """
     #Your code goes here
-    row = c[0]
-    col = c[1]
-    elevation = m[row][col]
 
-    length = len(m)
-    
-    if row >= length and col >= length:
-        return False
-
-    adj_elevations = get_adjacent(m, row, col)
-    
-    for adjacent in adj_elevations:
-        if adjacent < elevation:
-            return False
-
+    for i in range (c[0]-1, c[0]+2):
+        for j in range(c[1]-1, c[1]+2):
+            if i < 0:
+                i = 0
+            elif i > len(m)-1:
+                i = len(m)-1
+            if j < 0:
+                j = 0
+            elif j > len(m)-1:
+                j = len(m)-1
+            if c[0] > len(m)-1 or c[1] > len(m)-1 or m[i][j] < m[c[0]][c[1]]:
+                return False
     return True
-
-
-def get_adjacent(m: List[List[int]], r: int, c: int) -> List[int]:
-
-    row_length = len(m)
-    col_length = len(m[0])
-
-    adj_elevation = []
-
-    def larger(x, y):
-        if x >= y:
-            return x
-        
-        return y
-
-    def smaller(x, y):
-        if x >= y:
-            return y
-        
-        return x
-
-    # check if out of bound
-    up_bound = larger(r - 1, 0)
-    bt_bound = smaller(r + 1, row_length - 1)
-    lf_bound = larger(c - 1, 0)
-    rt_bound = smaller(c + 1, col_length - 1)
-
-    print(up_bound,bt_bound,lf_bound,rt_bound)
-
-    for row in range(up_bound, bt_bound + 1):
-        for col in range(lf_bound, rt_bound + 1):
-            
-            if not(row == r and col == c):
-                adj_elevation.append(m[row][col])
-
-    return adj_elevation
     
 
 def find_local_sink(m: List[List[int]], start: List[int]) -> List[int]:
@@ -162,19 +124,49 @@ def find_local_sink(m: List[List[int]], start: List[int]) -> List[int]:
     [1,1]
     """
     #Your code goes here
+    r, c = start
+    elevation = m[r][c]
 
-    row = start[0]
-    col = start[1]
+    while True: # 
+        if not is_sink(m, [r, c]):  # if current location[r, c] is not a sink(the lowest point compare to ajacent elevation)
+            # find the smallest ajacent elevation
+            row_length = len(m)
+            col_length = len(m[0])
 
-    cur_val = m[row][col]
+            adj_elevation = []
 
-    length = len(m)
-    if row >= length and col >= length:
-        return False
-    
-    adj_sinks = get_adjacent(m, row, col)
-    
-    cur_valmin(adj_sinks)
+            def larger(x, y):
+                if x >= y:
+                    return x
+                
+                return y
+
+            def smaller(x, y):
+                if x >= y:
+                    return y
+                
+                return x
+
+            # find the boundary index of adjacent values
+            up_bound = larger(r - 1, 0)  # more than or equal to uptop index
+            bt_bound = smaller(r + 1, row_length - 1)  # less than or equal to lowerest index
+            lf_bound = larger(c - 1, 0)  # more than or equal to leftmost index
+            rt_bound = smaller(c + 1, col_length - 1)  # less or equal to rightmost index
+
+            for row in range(up_bound, bt_bound + 1):
+                for col in range(lf_bound, rt_bound + 1):
+                    
+                    if not(row == r and col == c):
+                        if m[row][col] < elevation:  # if location[row, col] is lower than current elevation [r,c].
+                            elevation = m[row][col]  # save this location and elevation
+                            r = row
+                            c = col
+            # after found the lowest adjacent elevation, check again to see if its a sink
+
+        else: # until the current location[r, c] become a sink
+            break
+
+    return [r, c]
 
     #when entering value outside of range of m
         #returns empty list
@@ -191,7 +183,6 @@ def find_local_sink(m: List[List[int]], start: List[int]) -> List[int]:
             #continue to use value stored in place to redo loop
             #once no smaller values around are found
     #return place
-
     """ 
     place = [0,0]
     cur_val = 0
@@ -212,13 +203,14 @@ def find_local_sink(m: List[List[int]], start: List[int]) -> List[int]:
             smal_val_pos = [i,j]
 
         return smal_val_pos  """
+                
 
     
 def can_hike_to(m: List[List[int]], s: List[int], d: List[int], supplies: int) -> bool:
     """
     Given an elevation map m, a start cell s, a destination cell d, and
     the an amount of supplies returns True if and only if a hiker could reach
-    d from s using the strategy dscribed in the assignment .pdf. Read the .pdf
+    d from s using the strategy described in the assignment .pdf. Read the .pdf
     carefully. Assume d is always south, east, or south-east of s. The hiker
     never travels, north, west, nor backtracks. 
 
@@ -241,6 +233,10 @@ def can_hike_to(m: List[List[int]], s: List[int], d: List[int], supplies: int) -
     True
     """
     #Your code goes here
+
+    
+
+
 
 
 """
