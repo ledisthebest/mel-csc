@@ -234,9 +234,17 @@ def can_hike_to(m: List[List[int]], s: List[int], d: List[int], supplies: int) -
     """
     #Your code goes here
 
-    
-
-
+def rotate_map(m: List[List[int]]):    
+    """
+    m = [[1, 4, 3],
+        [2, 3, 5],
+        [5, 4, 3]]
+    >>> m = [[5, 2, 1],
+            [4, 3, 4],
+            [3, 5, 3]]
+    """
+    #https://leetcode.com/problems/rotate-image/solutions/
+    #https://stackoverflow.com/questions/42519/how-do-you-rotate-a-two-dimensional-array
 
 
 """
