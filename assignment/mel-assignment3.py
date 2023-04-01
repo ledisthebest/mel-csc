@@ -28,7 +28,7 @@ def create_profile_dictionary(file_name: str) \
                     if followers[f]:  # if element is not empty
                         followers[f] = int(followers[f].strip())  # convert number to int
             else:
-                followers = None
+                followers = []
         
         if not i + 3 >= len(contents):
             if contents[i + 3] != "\n":
@@ -37,8 +37,8 @@ def create_profile_dictionary(file_name: str) \
                     if followings[f]:
                         followings[f] = int(followings[f].strip())
             else:
-                followings = None
-        #profile_dictionary = {uid: (name, [x, y], [a, b] )}
+                followings = []
+        #profile_dictionary = {uid: (name: [x, y], [a, b] )}
         profile_dictionary.update({uid: tuple((name, followers, followings))})
         uid = name = followers = followings = None  #clear them
 
@@ -71,7 +71,7 @@ def create_chirp_dictionary(file_name: str) \
             if contents[i + 3] != '\n':
                 tags = contents[i + 3].replace("\n", '').replace(" ", '').split(',')  # split into a list
             else:
-                tags = None
+                tags = []
         
         if not i + 4 >= len(contents):
             if contents[i + 4] != '\n':
@@ -80,7 +80,7 @@ def create_chirp_dictionary(file_name: str) \
                     if likes[l]: # check if number exist
                         likes[l] = int(likes[l])
             else:
-                likes = None
+                likes = []
 
         if not i + 5 >= len(contents):
             if contents[i + 5] != "\n":
@@ -89,7 +89,7 @@ def create_chirp_dictionary(file_name: str) \
                     if dislikes[d]:
                         dislikes[d] = int(dislikes[d])
             else:
-                dislikes = None
+                dislikes = []
 
         #chirp_dictionary = {cid: (uid, message, [x, y], [a, b], [i, j])}
         chirp_dictionary.update({cid: tuple((uid, message, tags, likes, dislikes))})
@@ -114,7 +114,7 @@ def get_top_chirps( \
     ["I'm going to reign over the world. Kneel before me. %AI %LLM %KingLife %humanssuck", 'Breaking news: The biggest movie of the year is coming soon! Stay tuned for updates. %Hollywood %Movies %Twitter']
     """
     #Your code goes here
-    followings = profile_dictionary[user_id][2]  # id of following users
+    followings = profile_dictionary[user_id][2]  # id of following users[x, y, z]
 
     feed = {}  # uid:[message, like_count]
     for chirps in chirp_dictionary:
@@ -125,7 +125,7 @@ def get_top_chirps( \
             like_count = len(chirp_dictionary[chirps][3])
             
             if uid in feed:  # if there are other chirps of the same user in feed
-                if like_count > feed[uid][1]:  # if chirps has more like than previous
+                if like_count > feed[uid][1]:  # if chirp has more like than previous saved chirp
                     feed.update({uid: [message, like_count]})
             else:
                 feed.update({uid: [message, like_count]})
@@ -156,11 +156,12 @@ def create_tag_dictionary( \
         tags = chirp_dictionary[chirp][2]  # [tag0, tag1]
         uid = chirp_dictionary[chirp][0] # uid of the user that made this chirp
         message = chirp_dictionary[chirp][1]
+        
         if len(tags) == 0:  # if chirp has no tags
             if uid in tag_dictionary[""]:  # if user had made other post with the same tag
                 tag_dictionary[""][uid].append(message)  # add this chirp to tag:user:[]
             else:
-                tag_dictionary[""].update({uid: [message]})  # create a new user and add chirp
+                tag_dictionary[""].update({uid: list[message]})  # create a new user and add chirp
 
         else: 
             for tag in tags:  # go through list of tags
@@ -190,6 +191,17 @@ def get_tagged_chirps( \
     ['Love seeing all the amazing games coming out lately. The %Gaming industry is always evolving! %Youtube %Sam', 'Just got a Victory Royale in a solo match! Feeling pumped and ready for more! %Gaming %2EZ']
     """
     #Your code goes here
+    tagged_chirps = []  # [chirp0, chirp1...]
+
+    for chirp in chirp_dictionary:
+        tags = chirp_dictionary[chirp][2]  # [tag0, tag1...]
+        message = chirp_dictionary[chirp][1]
+        
+        if tag in tags:  # if chirp has tag specified
+            tagged_chirps.append(message)
+
+    return tagged_chirps
+
 
 if __name__ == "__main__":
     import doctest

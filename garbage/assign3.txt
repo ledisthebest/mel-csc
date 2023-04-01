@@ -12,7 +12,7 @@
 
 
 {100: (1, 'Just landed on Mars and it feels amazing!', 
-None, [2, 5, 6], [4]),
+[], [2, 5, 6], [4]),
 
 200: (1, "Just tested the %Starship prototype and it's looking great! Can't wait for the next test! %2EZ %SpaceX %CEO", 
 ['2EZ', 'SpaceX', 'Starship', 'CEO'], [2, 3, 4, 5, 7, 10, 11], [2, 3]),
@@ -46,3 +46,18 @@ None, [2, 5, 6], [4]),
 
 2500: (11, 'Sometimes I feel like a wilted rose, my petals falling one by one, leaving me bare and exposed... %DepressionWednsday %SadLife', 
 ['DepressionWednsday', 'SadLife'], [2], [1, 5, 10])}
+
+{
+    "": {
+            u1: ["message", "message"]
+        },
+    "CEO": {
+            1: ["message0", "message1"],
+            2: ["messagex", "messagey"],
+            4: ["messagex", "messagey"],          
+        },
+    "2EZ": {
+            u1: ["message0", "message1"],
+            u2: ["messagex", "messagey"],
+        }
+}
