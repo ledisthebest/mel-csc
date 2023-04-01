@@ -40,7 +40,7 @@ def create_profile_dictionary(file_name: str) \
                 followings = []
         #profile_dictionary = {uid: (name: [x, y], [a, b] )}
         profile_dictionary.update({uid: tuple((name, followers, followings))})
-        uid = name = followers = followings = None  #clear them
+        uid = name = followers = followings = []  #clear them
 
     return profile_dictionary
 
@@ -71,7 +71,7 @@ def create_chirp_dictionary(file_name: str) \
             if contents[i + 3] != '\n':
                 tags = contents[i + 3].replace("\n", '').replace(" ", '').split(',')  # split into a list
             else:
-                tags = []
+                tags = ['']
         
         if not i + 4 >= len(contents):
             if contents[i + 4] != '\n':
@@ -93,7 +93,7 @@ def create_chirp_dictionary(file_name: str) \
 
         #chirp_dictionary = {cid: (uid, message, [x, y], [a, b], [i, j])}
         chirp_dictionary.update({cid: tuple((uid, message, tags, likes, dislikes))})
-        cid = uid = message = tags = likes = dislikes = None
+        cid = uid = message = tags = likes = dislikes = []
 
     return chirp_dictionary
 
