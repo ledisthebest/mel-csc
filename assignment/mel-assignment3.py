@@ -150,6 +150,32 @@ def create_tag_dictionary( \
     {'': {1: ['Just landed on Mars and it feels amazing!']}, '2EZ': {1: ["Just tested the %Starship prototype and it's looking great! Can't wait for the next test! %2EZ %SpaceX %CEO"], 10: ['Just got a Victory Royale in a solo match! Feeling pumped and ready for more! %Gaming %2EZ']}, 'SpaceX': {1: ["Just tested the %Starship prototype and it's looking great! Can't wait for the next test! %2EZ %SpaceX %CEO"]}, 'Starship': {1: ["Just tested the %Starship prototype and it's looking great! Can't wait for the next test! %2EZ %SpaceX %CEO"]}, 'CEO': {1: ["Just tested the %Starship prototype and it's looking great! Can't wait for the next test! %2EZ %SpaceX %CEO"], 2: ['Just had a great meeting with the team discussing the future of %Twitter. Exciting things to come! %CEO %Future'], 4: ["Had a great meeting with some fellow philanthropists today. We're making progress on some important initiatives! %Philanthropy %Progress %CEO"]}, 'RichVibes': {1: ["I'm going to buy %twitter. %RichVibes"]}, 'Twitter': {1: ["I'm going to buy %twitter. %RichVibes"], 2: ['Just had a great meeting with the team discussing the future of %Twitter. Exciting things to come! %CEO %Future', 'Love seeing all the creative ways people are using Twitter. Keep it up! %Twitter %Creativity'], 7: ['Breaking news: The biggest movie of the year is coming soon! Stay tuned for updates. %Hollywood %Movies %Twitter']}, 'Future': {2: ['Just had a great meeting with the team discussing the future of %Twitter. Exciting things to come! %CEO %Future']}, 'Creativity': {2: ['Love seeing all the creative ways people are using Twitter. Keep it up! %Twitter %Creativity']}, 'Grammys': {3: ['Had an amazing time performing at the %Grammys tonight! Thank you to all my fans for your support! %Mu$ic %Blessed %TaylorFansRejoice']}, 'Mu$ic': {3: ['Had an amazing time performing at the %Grammys tonight! Thank you to all my fans for your support! %Mu$ic %Blessed %TaylorFansRejoice']}, 'Blessed': {3: ['Had an amazing time performing at the %Grammys tonight! Thank you to all my fans for your support! %Mu$ic %Blessed %TaylorFansRejoice']}, 'TaylorFansRejoice': {3: ['Had an amazing time performing at the %Grammys tonight! Thank you to all my fans for your support! %Mu$ic %Blessed %TaylorFansRejoice']}, 'Philanthropy': {4: ["Had a great meeting with some fellow philanthropists today. We're making progress on some important initiatives! %Philanthropy %Progress %CEO"]}, 'Progress': {4: ["Had a great meeting with some fellow philanthropists today. We're making progress on some important initiatives! %Philanthropy %Progress %CEO"]}, 'Gaming': {5: ['Love seeing all the amazing games coming out lately. The %Gaming industry is always evolving! %Youtube %Sam'], 10: ['Just got a Victory Royale in a solo match! Feeling pumped and ready for more! %Gaming %2EZ']}, 'Youtube': {5: ['Love seeing all the amazing games coming out lately. The %Gaming industry is always evolving! %Youtube %Sam']}, 'Sam': {5: ['Love seeing all the amazing games coming out lately. The %Gaming industry is always evolving! %Youtube %Sam']}, 'AI': {6: ["I'm going to reign over the world. Kneel before me. %AI %LLM %KingLife %humanssuck"]}, 'LLM': {6: ["I'm going to reign over the world. Kneel before me. %AI %LLM %KingLife %humanssuck"]}, 'KingLife': {6: ["I'm going to reign over the world. Kneel before me. %AI %LLM %KingLife %humanssuck"]}, 'humanssuck': {6: ["I'm going to reign over the world. Kneel before me. %AI %LLM %KingLife %humanssuck"]}, 'Hollywood': {7: ['Breaking news: The biggest movie of the year is coming soon! Stay tuned for updates. %Hollywood %Movies %Twitter']}, 'Movies': {7: ['Breaking news: The biggest movie of the year is coming soon! Stay tuned for updates. %Hollywood %Movies %Twitter']}, 'DepressionWednsday': {11: ['Sometimes I feel like a wilted rose, my petals falling one by one, leaving me bare and exposed... %DepressionWednsday %SadLife']}, 'SadLife': {11: ['Sometimes I feel like a wilted rose, my petals falling one by one, leaving me bare and exposed... %DepressionWednsday %SadLife']}}
     """
     #Your code goes here
+    tag_dictionary = {"":{}}  # tag: {uid: message[a, b]}
+
+    for chirp in chirp_dictionary:
+        tags = chirp_dictionary[chirp][2]  # [tag0, tag1]
+        uid = chirp_dictionary[chirp][0] # uid of the user that made this chirp
+        message = chirp_dictionary[chirp][1]
+        if len(tags) == 0:  # if chirp has no tags
+            if uid in tag_dictionary[""]:  # if user had made other post with the same tag
+                tag_dictionary[""][uid].append(message)  # add this chirp to tag:user:[]
+            else:
+                tag_dictionary[""].update({uid: [message]})  # create a new user and add chirp
+
+        else: 
+            for tag in tags:  # go through list of tags
+                if not tag in tag_dictionary:  # if tag is not found in dictionary
+                    tag_dictionary.update({tag: {uid: [message]}})
+                
+                else:
+                    if uid in tag_dictionary[tag]: # if this user already made chirps with the same tag
+                        tag_dictionary[tag][uid].append(message)
+
+                    else:
+                        tag_dictionary[tag].update({uid:[message]})
+
+    return tag_dictionary
+    
     
 def get_tagged_chirps( \
         chirp_dictionary: Dict[int, Tuple[int, str, List[str], List[int], List[int]]], \
